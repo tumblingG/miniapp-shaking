@@ -6,11 +6,18 @@ const { ReplaceSubPackagesPath } = require('./ReplaceSubPackagesPath');
 class SubDepend extends BaseDepend {
   constructor(config, rootDir, mainDepend) {
     super(config, rootDir);
+    // 改子包所以依赖的独立npm包
     this.isolatedNpms = new Set();
     this.isMain = false;
+    // 主包已经依赖过的文件
     this.excludeFiles = this.initExcludesFile(mainDepend.files);
   }
 
+  /**
+   * 做一个映射，提高比较效率
+   * @param excludeFiles
+   * @returns {{}}
+   */
   initExcludesFile(excludeFiles) {
     const files = {};
     excludeFiles.forEach(filePath => {
@@ -19,10 +26,19 @@ class SubDepend extends BaseDepend {
     return files;
   }
 
+  /**
+   * 判断是否是独立npm包
+   * @param npm
+   * @returns {boolean}
+   */
   isIsolatedNpm(npm) {
     return this.isolatedNpms.has(npm);
   }
 
+  /**
+   * 获取独立npm包的依赖
+   * @returns {Map<any, any>}
+   */
   getIsolatedNpmDepend() {
     const isolatedNpmDepends = new Map();
     if (this.isolatedNpms.size !== 0) {
@@ -51,6 +67,10 @@ class SubDepend extends BaseDepend {
     return isolatedNpmDepends;
   }
 
+  /**
+   * 获取子包的依赖
+   * @returns {Map<any, any>}
+   */
   getSubPackageDepend() {
     const isolatedNpmDepends = new Map();
     if (this.isolatedNpms.size !== 0) {
@@ -73,11 +93,17 @@ class SubDepend extends BaseDepend {
     return isolatedNpmDepends;
   }
 
+  /**
+   * 修复npm包的路径
+   */
   replaceNpmDependPath() {
     const instance = new ReplaceNpmPackagesPath(this.getIsolatedNpmDepend(), this.config, this);
     instance.replaceAll();
   }
 
+  /**
+   * 修复子包正常文件的路径
+   */
   replaceNormalFileDependPath() {
     const instance = new ReplaceSubPackagesPath(this.getSubPackageDepend(), this.config, this.rootDir);
     instance.replaceAll();

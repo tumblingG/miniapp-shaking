@@ -5,7 +5,6 @@ const { default: traverse } = require('@babel/traverse');
 const {default: generate} = require('@babel/generator');
 const htmlparser2 = require('htmlparser2');
 
-
 class ReplaceSubPackagesPath {
   constructor(pathMap, config, subPackageName) {
     this.pathMap = pathMap;

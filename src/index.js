@@ -16,7 +16,6 @@ class DependContainer {
     this.clear();
     this.initMainDepend();
     this.initSubDepend();
-    this.printValidComponents();
     this.splitIsolatedNpmForSubPackage();
     const allFiles = await this.copyAllFiles();
     this.replaceComponentsPath(allFiles);
@@ -56,24 +55,6 @@ class DependContainer {
       });
     }
     this.subDepends = subDepends;
-  }
-
-  printValidComponents() {
-    const depends = [this.mainDepend, ...this.subDepends];
-    const size = depends.reduce((sum, depend) => {
-      sum += depend.invalidComponentMap.size;
-      return sum;
-    }, 0);
-    if (size > 0) {
-      console.log('存在大写标签组件，请修改：');
-      depends.forEach(depend => {
-        for (let [key, value] of depend.invalidComponentMap) {
-          console.log(key + '：');
-          console.log(value);
-        }
-      });
-      console.log('大写标签组件 end');
-    }
   }
 
   splitIsolatedNpmForSubPackage() {

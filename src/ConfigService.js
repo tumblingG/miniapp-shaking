@@ -24,7 +24,7 @@ class ConfigService {
     // 分析目录输出目录
     this.analyseDir = options.analyseDir;
     // 组名称
-    this.groupName = options.groupName || 'dht';
+    this.groupName = options.groupName || 'sun';
     // 静态文件扩展
     this.staticFileExtends = options.staticFileExtends || STATIC_File_EXTENDS;
     // 文件扩展
