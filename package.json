@@ -1,0 +1,34 @@
+{
+  "name": "miniapp-shaking",
+  "version": "1.0.0",
+  "description": "微信小程序摇树优化工具",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tumblingG/miniapp-shaking.git"
+  },
+  "keywords": [
+    "微信小程序",
+    "摇树优化"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tumblingG/miniapp-shaking/issues"
+  },
+  "homepage": "https://github.com/tumblingG/miniapp-shaking#readme",
+  "dependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/generator": "^7.15.8",
+    "@babel/parser": "^7.15.8",
+    "@babel/template": "^7.15.4",
+    "@babel/traverse": "^7.15.4",
+    "@babel/types": "^7.15.6",
+    "babel-loader": "^8.2.3",
+    "fs-extra": "^10.0.0",
+    "htmlparser2": "^7.2.0"
+  }
+}
