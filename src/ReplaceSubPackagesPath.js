@@ -1,9 +1,10 @@
-const fse = require('fs-extra');
 const path = require('path');
+const fse = require('fs-extra');
 const { parse } = require('@babel/parser');
 const { default: traverse } = require('@babel/traverse');
-const htmlparser2 = require('htmlparser2');
 const {default: generate} = require('@babel/generator');
+const htmlparser2 = require('htmlparser2');
+
 
 class ReplaceSubPackagesPath {
   constructor(pathMap, config, subPackageName) {

@@ -1,9 +1,9 @@
-const { MainDepend } = require('./MainDepend');
-const { SubDepend } = require('./SubDepend');
-const fse = require('fs-extra');
 const path = require('path');
+const fse = require('fs-extra');
 const htmlparser2 = require('htmlparser2');
 const { getReplaceComponent, getGenericName } = require('./utils');
+const { MainDepend } = require('./MainDepend');
+const { SubDepend } = require('./SubDepend');
 const { ConfigService } = require('./ConfigService');
 
 class DependContainer {

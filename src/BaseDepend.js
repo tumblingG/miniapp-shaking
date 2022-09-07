@@ -1,5 +1,5 @@
-const fse = require('fs-extra');
 const path = require('path');
+const fse = require('fs-extra');
 const { parse } = require('@babel/parser');
 const { default: traverse } = require('@babel/traverse');
 const htmlparser2 = require('htmlparser2');

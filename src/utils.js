@@ -1,5 +1,4 @@
 /**
- *
  * @param key：组件名
  * @param componentPath： 组件路径
  * @param replaceComponents: 取代组件配置
@@ -12,6 +11,11 @@ function getReplaceComponent(key, componentPath, replaceComponents) {
   return componentPath;
 }
 
+/**
+ * 解析泛型组件名称
+ * @param attribs
+ * @returns {[]}
+ */
 function getGenericName(attribs = {}) {
   let names = [];
   Object.keys(attribs).forEach(key => {

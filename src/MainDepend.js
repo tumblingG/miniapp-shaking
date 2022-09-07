@@ -1,5 +1,5 @@
-const fse = require('fs-extra');
 const path = require('path');
+const fse = require('fs-extra');
 const { BaseDepend } = require('./BaseDepend');
 
 class MainDepend extends BaseDepend {

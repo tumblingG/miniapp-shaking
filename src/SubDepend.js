@@ -1,7 +1,7 @@
+const path = require('path');
 const { BaseDepend } = require('./BaseDepend');
 const { ReplaceNpmPackagesPath } = require('./ReplaceNpmPackagesPath');
 const { ReplaceSubPackagesPath } = require('./ReplaceSubPackagesPath');
-const path = require('path');
 
 class SubDepend extends BaseDepend {
   constructor(config, rootDir, mainDepend) {

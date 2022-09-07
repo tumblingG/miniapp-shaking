@@ -1,11 +1,18 @@
 const path = require('path');
 
+// 静态文件扩展名
 const STATIC_File_EXTENDS = ['.jpg', '.png', '.jpeg', '.gif', '.webp', '.eot', '.ttf', '.woff', '.woff2', '.svg'];
+// 小程序文件扩展名
 const EXTENDS = ['.js', '.json', '.wxml', '.wxss'];
+// 主包名称
 const MAIN_PACKAGE_NAME = 'main_package';
+// 排除的文件，不需要遍历
 const EXCLUDE_FILES = ['package-lock.json', 'package.json'];
-const EXCLUDE_NPMs = [];
+// 排除的npm包
+const EXCLUDE_NPM = [];
+// npm包正则匹配表达式，兼容mac和window
 const NPM_REGEXP = path.sep === '/' ? /miniprogram_npm\/(.*?)\// : /miniprogram_npm\\(.*?)\\/;
+// 分离npm包的正则匹配表达式，兼容mac和window
 const SPLIT_NPM_REGEXP = path.sep === '/' ? /_npm\/(.*?)\// : /_npm\\(.*?)\\/;
 
 class ConfigService {
@@ -27,13 +34,14 @@ class ConfigService {
     // 需要排除的文件名称
     this.excludeFiles = options.excludeFiles || EXCLUDE_FILES;
     // 独立分包需要排除的npm包名称
-    this.excludeNpms = options.excludeNpms || EXCLUDE_NPMs;
+    this.excludeNpms = options.excludeNpms || EXCLUDE_NPM;
     // 是否需要独立分包
     this.isSplitNpm  = options.isSplitNpm || false;
     // npm 包正则判断
     this.npmRegexp = NPM_REGEXP;
     // 分包名称正则判断
     this.SPLIT_NPM_REGEXP = SPLIT_NPM_REGEXP;
+    // 是否需要微信的自定义TabBar
     this.needCustomTabBar = options.needCustomTabBar || false;
   }
 }
