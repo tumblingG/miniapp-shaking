@@ -5,6 +5,7 @@ const { getReplaceComponent, getGenericName } = require('./utils');
 const { MainDepend } = require('./MainDepend');
 const { SubDepend } = require('./SubDepend');
 const { ConfigService } = require('./ConfigService');
+const { asyncService } =  require('./AsyncService');
 
 class DependContainer {
 
@@ -16,6 +17,7 @@ class DependContainer {
     this.clear();
     this.initMainDepend();
     this.initSubDepend();
+    this.handleAsyncFile();
     this.splitIsolatedNpmForSubPackage();
     const allFiles = await this.copyAllFiles();
     this.replaceComponentsPath(allFiles);
@@ -55,6 +57,27 @@ class DependContainer {
       });
     }
     this.subDepends = subDepends;
+  }
+
+  handleAsyncFile() {
+    if (asyncService.isHasValue()) {
+      console.log('处理异步文件');
+      const allDepends = [this.mainDepend].concat(this.subDepends);
+      allDepends.forEach(depend => {
+        let fileSet;
+        if (depend.isMain) {
+          fileSet = asyncService.getFileMapByName(this.config.mainPackageName);
+        } else {
+          fileSet =  asyncService.getFileMapByName(depend.rootDir);
+        }
+        if (fileSet.size) {
+          for (let file of  fileSet.values())
+          depend.addToTree(file);
+        }
+      });
+      asyncService.clear();
+    }
+
   }
 
   splitIsolatedNpmForSubPackage() {

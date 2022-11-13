@@ -1,7 +1,9 @@
 const path = require('path');
+const fse = require('fs-extra');
 const { BaseDepend } = require('./BaseDepend');
 const { ReplaceNpmPackagesPath } = require('./ReplaceNpmPackagesPath');
 const { ReplaceSubPackagesPath } = require('./ReplaceSubPackagesPath');
+const { asyncService } =  require('./AsyncService');
 
 class SubDepend extends BaseDepend {
   constructor(config, rootDir, mainDepend) {
@@ -11,6 +13,8 @@ class SubDepend extends BaseDepend {
     this.isMain = false;
     // 主包已经依赖过的文件
     this.excludeFiles = this.initExcludesFile(mainDepend.files);
+    this.regexp2supackageName = new Map();
+    this.initSubpackageRegexp();
   }
 
   /**
@@ -107,6 +111,39 @@ class SubDepend extends BaseDepend {
   replaceNormalFileDependPath() {
     const instance = new ReplaceSubPackagesPath(this.getSubPackageDepend(), this.config, this.rootDir);
     instance.replaceAll();
+  }
+
+  isAsyncFile(file) {
+    if (this.regexp2supackageName.size) {
+      for (const [key, value] of this.regexp2supackageName.entries()) {
+        if (this.rootDir !== key) {
+          // 若是引入了其他子包的文件
+          if (value.test(file)) {
+            asyncService.setFileMap(key, file);
+            return true;
+          }
+        } else {
+          // 若是自己也不匹配，则说明本子包引入了主包的文件，这些文件应该属于主包
+          if (!value.test(file) && !this.config.npmRegexp.test(file)) {
+            asyncService.setFileMap(this.config.mainPackageName, file);
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+  initSubpackageRegexp() {
+    const { subPackages, subpackages } = fse.readJsonSync(path.join(this.config.sourceDir, 'app.json'));
+    const subPkgs = subPackages || subpackages;
+
+    if (subPkgs && subPkgs.length) {
+      subPkgs.forEach(item => {
+        const regexp = new RegExp(path.join(this.config.sourceDir, item.root));
+        this.regexp2supackageName.set(item.root, regexp);
+      });
+    }
   }
 }
 

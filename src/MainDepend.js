@@ -1,10 +1,13 @@
 const path = require('path');
 const fse = require('fs-extra');
 const { BaseDepend } = require('./BaseDepend');
+const { asyncService } =  require('./AsyncService');
 
 class MainDepend extends BaseDepend {
   constructor(config, rootDir = '') {
     super(config, rootDir);
+    this.regexp2supackageName = new Map();
+    this.initSubpackageRegexp();
   }
 
   run() {
@@ -32,6 +35,30 @@ class MainDepend extends BaseDepend {
       }
     });
     return this;
+  }
+
+  isAsyncFile(file) {
+    if (this.regexp2supackageName.size) {
+      for (const [key, value] of this.regexp2supackageName.entries()) {
+        if (value.test(file)) {
+          asyncService.setFileMap(key, file);
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  initSubpackageRegexp() {
+    const { subPackages, subpackages } = fse.readJsonSync(path.join(this.config.sourceDir, 'app.json'));
+    const subPkgs = subPackages || subpackages;
+
+    if (subPkgs && subPkgs.length) {
+      subPkgs.forEach(item => {
+        const regexp = new RegExp(path.join(this.config.sourceDir, item.root));
+        this.regexp2supackageName.set(item.root, regexp);
+      });
+    }
   }
 }
 

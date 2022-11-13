@@ -559,14 +559,27 @@ class BaseDepend {
   }
 
   /**
+   * 给子类覆盖处理异步文件的方法
+   * @param file
+   * @returns {boolean}
+   */
+  isAsyncFile(file) {
+    return false;
+  }
+
+  /**
    * 建立依赖树
    * @param filePath
    */
-  addToTree(filePath) {
+  addToTree(filePath, isCheckAsyncFile = true) {
     if (this.files.has(filePath) || this.excludeFiles[filePath]) return;
+    this.addNpmPackages(filePath);
+    // 校验是否是异步加载的文件
+    if (isCheckAsyncFile && this.isAsyncFile(filePath)) {
+      return;
+    }
     console.log(filePath);
     // 有可能包含主包npm包也可能不包含主npm包
-    this.addNpmPackages(filePath);
 
     const relPath = this.getRelative(filePath);
     const size = this.getSize(filePath);
