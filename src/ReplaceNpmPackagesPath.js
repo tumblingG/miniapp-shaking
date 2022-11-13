@@ -142,7 +142,7 @@ class ReplaceNpmPackagesPath {
   getRelativePath(file, src) {
     const relativePath = path.relative(path.join(this.config.targetDir, `${this.subDepend.rootDir}/${this.subDepend.rootDir}_npm`), file);
     const pathArr = relativePath.split(path.sep);
-    let filePath = `${this.getDotPath(pathArr.length - 1)}${src}`;
+    let filePath = `${this.getDotPath(pathArr.length)}${src}`;
     try {
       const stats = fse.statSync(path.resolve(file, path.join('../', filePath)));
       if (stats.isDirectory()) {
@@ -154,7 +154,7 @@ class ReplaceNpmPackagesPath {
 
   getDotPath(len) {
     let result = '';
-    for (let i = 0; i < len; i++) {
+    for (let i = 0; i < len - 1; i++) {
       result += '../';
     }
     return result;

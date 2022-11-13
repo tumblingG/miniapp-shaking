@@ -158,7 +158,7 @@ class ReplaceSubPackagesPath {
   getRelativePath(file, component) {
     const relativePath = path.relative(path.join(this.config.targetDir, `${this.subPackageName}`), file);
     const pathArr = relativePath.split(path.sep);
-    let filePath = `${this.getDotPath(pathArr.length - 1)}${this.subPackageName}_npm/${component}`;
+    let filePath = `${this.getDotPath(pathArr.length)}${this.subPackageName}_npm/${component}`;
     try {
       const stats = fse.statSync(path.resolve(file, path.join('../', filePath)));
       if (stats.isDirectory()) {
@@ -173,7 +173,7 @@ class ReplaceSubPackagesPath {
     if (len === 1) {
       result = './';
     } else {
-      for (let i = 0; i < len; i++) {
+      for (let i = 0; i < len - 1; i++) {
         result += '../';
       }
     }
