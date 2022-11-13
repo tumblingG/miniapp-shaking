@@ -6,7 +6,7 @@
 
 使用demo请看这里：[demo](https://github.com/tumblingG/miniapp-shaking-demo)
 
-设计文档请看这里：[文档](https://blog.csdn.net/qq_28506819/article/details/127600538)
+设计文档请看这里：[文档](https://blog.csdn.net/qq_28506819/category_12079342.html)
 
 ## 1.如何使用
  首先安装npm包
