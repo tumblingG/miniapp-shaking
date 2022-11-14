@@ -45,4 +45,3 @@ instance.init().catch(err => console.error(err));
  - excludeNpms：独立分包需要排除的npm包名称。
  - needCustomTabBar：是否使用了微信的自定义tabbar，如果使用了必须设置为true，否则不会遍历。
 
-联系方式：1101258845@qq.com
