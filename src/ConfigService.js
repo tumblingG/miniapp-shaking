@@ -49,7 +49,7 @@ class ConfigService {
     // 业务逻辑
     if (this.groupName && this.needDeleteGroupCode) {
       this.groupCodeJsRegexp =  new RegExp(`(?<=\\/\\*\\*[\\s\\S]*groupStart:((?!${this.groupName}).)+[\\s\\S]*\\*\\/)[\\s\\S]*(?=\\/\\*\\*[\\s\\S]*groupEnd[\\s\\S]*\\*\\/)`, 'ig');
-      this.groupCodeWxmlRegexp = new RegExp(`(?<=<!--[\\s\\S]*groupStart:((?!${this.groupName}).)+[\\s\\S]*-->)[\\s\\S]*(?=<!--[\\s\\S]*groupEnd[\\s\\S]*-->)`);
+      this.groupCodeWxmlRegexp = new RegExp(`(?<=<!--[\\s\\S]*groupStart:((?!${this.groupName}).)+[\\s\\S]*-->)[\\s\\S]*(?=<!--[\\s\\S]*groupEnd[\\s\\S]*-->)`, 'ig');
     }
   }
 }
