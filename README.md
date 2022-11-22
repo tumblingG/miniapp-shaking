@@ -36,7 +36,8 @@ instance.init().catch(err => console.error(err));
  - sourceDir：你的源码目录
  - targetDir： 摇树之后输出的目录，最好定义在你的源码目录之外
  - analyseDir：依赖图的输出目录，摇树优化之后会生成代码的依赖图，类似微信小程序工具那种，不过比他更精细。
- - groupName：项目组名称，对于一个大型公司来说，它的项目公组件、页面可能是有十几个项目组一起开发的，然后在分发成不同的小程序，这个项目组名称可以去除掉其他组的业务逻辑，从而大大缩小程序体积，提高性能。
+ - groupName：项目组名称，对于一个大型公司来说，它的项目公组件、页面可能是有十几个项目组一起开发的，然后在分发成不同的小程序，
+ 这个项目组名称可以去除掉其他组的业务逻辑，从而大大缩小程序体积，提高性能。[文档](https://blog.csdn.net/qq_28506819/article/details/127712605)
  - needDeleteGroupCode 是否需要删除业务组代码，使用文档：[删除业务组代码](https://blog.csdn.net/qq_28506819/article/details/127983251)
  - staticFileExtends：静态文件扩展名，这里面预设了一些，你也可以自己定义。
  - fileExtends：小程序文件扩展名，一般不用传。
@@ -49,6 +50,6 @@ instance.init().catch(err => console.error(err));
 喜欢的给个星吧，维护需要的动力呀
 
 changelog:
-1. 增加删除业务代码功能 2022.11.22
+ - 增加删除业务代码功能 2022.11.22
 
 
