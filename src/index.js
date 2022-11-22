@@ -20,6 +20,7 @@ class DependContainer {
     this.handleAsyncFile();
     this.splitIsolatedNpmForSubPackage();
     const allFiles = await this.copyAllFiles();
+    this.deleteGroupCode();
     this.replaceComponentsPath(allFiles);
     if (this.config.isSplitNpm) {
       this.moveIsolatedNpm();
@@ -107,7 +108,9 @@ class DependContainer {
 
   appendSet(set1, set2) {
     for (let item of set2.values()) {
-      set1.add(item);
+      if (!set1.has(item)) {
+        set1.add(item);
+      }
     }
     return set1;
   }
@@ -151,6 +154,25 @@ class DependContainer {
     allFiles = Array.from(new Set(allFiles));
     await this._copyFile(allFiles);
     return allFiles;
+  }
+
+  deleteGroupCode() {
+    if (this.config.needDeleteGroupCode) {
+      console.log('正在删除业务组代码...');
+      const fileSet = this.mainDepend.groupFile;
+      this.subDepends.forEach(subDepend => {
+        this.appendSet(fileSet, subDepend.groupFile);
+      });
+      Array.from(fileSet).forEach(file => {
+        const targetPath = file.replace(this.config.sourceDir, this.config.targetDir);
+        let content = fse.readFileSync(targetPath, 'utf-8');
+
+        const ext = path.extname(file);
+        const regExp = ext === '.wxml' ? this.config.groupCodeWxmlRegexp : this.config.groupCodeJsRegexp;
+        content = content.replace(regExp, '');
+        fse.outputFileSync(targetPath, content);
+      });
+    }
   }
 
   replaceComponentsPath(allFiles) {
