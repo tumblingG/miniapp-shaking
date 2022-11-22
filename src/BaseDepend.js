@@ -28,6 +28,8 @@ class BaseDepend {
     this.excludeFiles = {};
     // 当前包的上下文，即包所处的目录
     this.context = path.join(this.config.sourceDir, this.rootDir);
+    // 有业务组代码的文件
+    this.groupFile = new Set();
   }
 
   /**
@@ -105,7 +107,8 @@ class BaseDepend {
     // 文件所处的目录
     const dirname = path.dirname(file);
     // 读取js内容
-    const content = fse.readFileSync(file, 'utf-8');
+    let content = fse.readFileSync(file, 'utf-8');
+    content = this._deleteGroupCode(content, file);
     // 将代码转化为AST树
     const ast = parse(content, {
       sourceType: 'module',
@@ -155,6 +158,27 @@ class BaseDepend {
       },
     });
     return deps;
+  }
+
+  /**
+   * 删除业务组代码
+   * @param codeStr
+   * @returns {void|string|*}
+   * @private
+   */
+  _deleteGroupCode(codeStr, file) {
+    if (this.config.needDeleteGroupCode && codeStr) {
+      const ext = path.extname(file);
+      const regExp = ext === '.wxml' ? this.config.groupCodeWxmlRegexp : this.config.groupCodeJsRegexp;
+      if (regExp.test(codeStr)) {
+        if (!this.groupFile.has(file)) {
+          // 保存有业务组代码的文件
+          this.groupFile.add(file);
+        }
+        return codeStr.replace(regExp, '');
+      }
+    }
+    return codeStr;
   }
 
   /**
@@ -222,7 +246,8 @@ class BaseDepend {
     const deps = [];
     const dirname = path.dirname(filePath);
     // 读取js内容
-    const content = fse.readFileSync(filePath, 'utf-8');
+    let content = fse.readFileSync(filePath, 'utf-8');
+    content = this._deleteGroupCode(content, filePath);
     // 将代码转化为AST
     const ast = parse(content, {
       sourceType: 'module',
@@ -277,7 +302,8 @@ class BaseDepend {
   wxmlDeps(file) {
     const deps = [];
     const dirName = path.dirname(file);
-    const content = fse.readFileSync(file, 'utf-8');
+    let content = fse.readFileSync(file, 'utf-8');
+    content = this._deleteGroupCode(content, file);
     const htmlParser = new htmlparser2.Parser({
       onopentag(name, attribs = {}) {
         // wxml中包括了这三种导入
@@ -480,7 +506,8 @@ class BaseDepend {
     let needDelete = true;
     const tags = new Set();
     if (fse.existsSync(filePath)) {
-      const content = fse.readFileSync(filePath, 'utf-8');
+      let content = fse.readFileSync(filePath, 'utf-8');
+      content = this._deleteGroupCode(content, filePath);
       const htmlParser = new htmlparser2.Parser({
         onopentag(name, attribs = {}) {
           if ((name === 'include' || name === 'import') && attribs.src) {

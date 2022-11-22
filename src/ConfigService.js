@@ -25,6 +25,8 @@ class ConfigService {
     this.analyseDir = options.analyseDir;
     // 组名称
     this.groupName = options.groupName || 'sun';
+    // 是否需要删除业务组代码
+    this.needDeleteGroupCode = options.needDeleteGroupCode || false;
     // 静态文件扩展
     this.staticFileExtends = options.staticFileExtends || STATIC_File_EXTENDS;
     // 文件扩展
@@ -43,6 +45,12 @@ class ConfigService {
     this.SPLIT_NPM_REGEXP = SPLIT_NPM_REGEXP;
     // 是否需要微信的自定义TabBar
     this.needCustomTabBar = options.needCustomTabBar || false;
+
+    // 业务逻辑
+    if (this.groupName && this.needDeleteGroupCode) {
+      this.groupCodeJsRegexp =  new RegExp(`(?<=\\/\\*\\*[\\s\\S]*groupStart:((?!${this.groupName}).)+[\\s\\S]*\\*\\/)[\\s\\S]*(?=\\/\\*\\*[\\s\\S]*groupEnd[\\s\\S]*\\*\\/)`, 'ig');
+      this.groupCodeWxmlRegexp = new RegExp(`(?<=<!--[\\s\\S]*groupStart:((?!${this.groupName}).)+[\\s\\S]*-->)[\\s\\S]*(?=<!--[\\s\\S]*groupEnd[\\s\\S]*-->)`, 'ig');
+    }
   }
 }
 
