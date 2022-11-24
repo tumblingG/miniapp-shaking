@@ -55,7 +55,11 @@ class MainDepend extends BaseDepend {
 
     if (subPkgs && subPkgs.length) {
       subPkgs.forEach(item => {
-        const regexp = new RegExp(path.join(this.config.sourceDir, item.root));
+        let regexpStr = path.join(this.config.sourceDir, item.root);
+        if (path.sep !== '/') {
+          regexpStr = regexpStr.replace(/\\/g, '\\\\');
+        }
+        const regexp = new RegExp(regexpStr);
         this.regexp2supackageName.set(item.root, regexp);
       });
     }

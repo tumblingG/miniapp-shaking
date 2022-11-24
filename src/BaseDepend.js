@@ -581,7 +581,9 @@ class BaseDepend {
   addNpmPackages(filePath) {
     const result = filePath.match(this.config.npmRegexp);
     if (result) {
-      this.npms.add(result[1]);
+      if (!this.npms.has(result[1])) {
+        this.npms.add(result[1]);
+      }
     }
   }
 
@@ -600,11 +602,11 @@ class BaseDepend {
    */
   addToTree(filePath, isCheckAsyncFile = true) {
     if (this.files.has(filePath) || this.excludeFiles[filePath]) return;
-    this.addNpmPackages(filePath);
     // 校验是否是异步加载的文件
     if (isCheckAsyncFile && this.isAsyncFile(filePath)) {
       return;
     }
+    this.addNpmPackages(filePath);
     console.log(filePath);
     // 有可能包含主包npm包也可能不包含主npm包
 

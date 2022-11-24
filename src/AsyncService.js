@@ -5,16 +5,30 @@ class AsyncService {
 
   setFileMap(subpackageName, file) {
     const fileSet = this.getFileMapByName(subpackageName);
-    fileSet.add(file);
-    this.asyncFileMap.set(subpackageName, fileSet);
+    if (!fileSet.has(file)) {
+      fileSet.add(file);
+    }
   }
 
   getFileMapByName(subpackageName) {
-    return this.asyncFileMap.get(subpackageName) || new Set();
+    if (!this.asyncFileMap.has(subpackageName)) {
+      this.asyncFileMap.set(subpackageName, new Set());
+    }
+    return this.asyncFileMap.get(subpackageName);
   }
 
-  isHasValue() {
-    return this.asyncFileMap.size;
+  getNextFile() {
+    if (this.asyncFileMap.size) {
+      for (const [key, fileSet] of this.asyncFileMap.entries()) {
+        if (fileSet.size) {
+          for (const file of fileSet) {
+            fileSet.delete(file);
+            return {key, file};
+          }
+        }
+      }
+    }
+    return '';
   }
 
   clear() {
