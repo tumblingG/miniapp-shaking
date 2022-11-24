@@ -50,6 +50,8 @@ instance.init().catch(err => console.error(err));
 喜欢的给个星吧，维护需要的动力呀
 
 changelog:
- - 增加删除业务代码功能 2022.11.22
+ - bugfix：修复异步文件没有递归遍历问题
+ - bugifx：修复window环境子包正则校验错误问题
+ - 增加删除业务代码功能
 
 
