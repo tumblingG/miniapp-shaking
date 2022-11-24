@@ -167,6 +167,9 @@ class BaseDepend {
    * @private
    */
   _deleteGroupCode(codeStr, file) {
+    if (file.endsWith('.min.js')) {
+      return codeStr;
+    }
     if (this.config.needDeleteGroupCode && codeStr) {
       const ext = path.extname(file);
       const regExp = ext === '.wxml' ? this.config.groupCodeWxmlRegexp : this.config.groupCodeJsRegexp;
