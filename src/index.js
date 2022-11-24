@@ -73,7 +73,7 @@ class DependContainer {
         }
         if (fileSet.size) {
           for (let file of  fileSet.values())
-          depend.addToTree(file);
+          depend.addToTree(file, false);
         }
       });
       asyncService.clear();
