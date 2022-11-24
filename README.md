@@ -47,8 +47,6 @@ instance.init().catch(err => console.error(err));
  - excludeNpms：独立分包需要排除的npm包名称。
  - needCustomTabBar：是否使用了微信的自定义tabbar，如果使用了必须设置为true，否则不会遍历。
 
-喜欢的给个星吧，维护需要的动力呀
-
 changelog:
  - bugfix：修复异步文件没有递归遍历问题
  - bugifx：修复window环境子包正则校验错误问题
