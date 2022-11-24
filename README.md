@@ -48,6 +48,7 @@ instance.init().catch(err => console.error(err));
  - needCustomTabBar：是否使用了微信的自定义tabbar，如果使用了必须设置为true，否则不会遍历。
 
 changelog:
+ - bugfix：修复删除业务代码正则匹配越界问题
  - bugfix：修复异步文件没有递归遍历问题
  - bugifx：修复window环境子包正则校验错误问题
  - 增加删除业务代码功能
