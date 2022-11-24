@@ -61,24 +61,20 @@ class DependContainer {
   }
 
   handleAsyncFile() {
-    if (asyncService.isHasValue()) {
-      console.log('处理异步文件');
-      const allDepends = [this.mainDepend].concat(this.subDepends);
-      allDepends.forEach(depend => {
-        let fileSet;
-        if (depend.isMain) {
-          fileSet = asyncService.getFileMapByName(this.config.mainPackageName);
-        } else {
-          fileSet =  asyncService.getFileMapByName(depend.rootDir);
-        }
-        if (fileSet.size) {
-          for (let file of  fileSet.values())
-          depend.addToTree(file, false);
-        }
-      });
-      asyncService.clear();
-    }
+    let fileObj = '';
+    const allDepends = [this.mainDepend].concat(this.subDepends);
 
+    while (fileObj = asyncService.getNextFile()) {
+      let {key, file} = fileObj;
+      if (key === this.config.mainPackageName) {
+        key = '';
+      }
+      const depend = allDepends.find(depend => depend.rootDir === key);
+      if (depend) {
+        depend.addToTree(file, false);
+      }
+    }
+    asyncService.clear();
   }
 
   splitIsolatedNpmForSubPackage() {
