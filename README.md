@@ -48,6 +48,7 @@ instance.init().catch(err => console.error(err));
 
 ## 3. 注意事项
  - 分包的目录最好在一级目录之下，参考官网[分包](https://developers.weixin.qq.com/miniprogram/dev/framework/subpackages/basic.html)
+ - 如果源码目录下包括了一些脚本文件，如上面的shaking.js，可以加入excludeFiles排除
 
 changelog:
  - bugfix：修复删除业务代码正则匹配越界问题
