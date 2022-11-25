@@ -37,15 +37,17 @@ instance.init().catch(err => console.error(err));
  - targetDir： 摇树之后输出的目录，最好定义在你的源码目录之外
  - analyseDir：依赖图的输出目录，摇树优化之后会生成代码的依赖图，类似微信小程序工具那种，不过比他更精细。
  - groupName：项目组名称，对于一个大型公司来说，它的项目公组件、页面可能是有十几个项目组一起开发的，然后在分发成不同的小程序，
- 这个项目组名称可以去除掉其他组的业务逻辑，从而大大缩小程序体积，提高性能。[文档](https://blog.csdn.net/qq_28506819/article/details/127712605)
+ 这个项目组名称可以去除掉其他组的业务逻辑，从而大大缩小程序体积，提高性能，使用文档：[组名的作用](https://blog.csdn.net/qq_28506819/article/details/127712605)
  - needDeleteGroupCode 是否需要删除业务组代码，使用文档：[删除业务组代码](https://blog.csdn.net/qq_28506819/article/details/127983251)
  - staticFileExtends：静态文件扩展名，这里面预设了一些，你也可以自己定义。
  - fileExtends：小程序文件扩展名，一般不用传。
- - mainPackageName：主包名称，用于依赖图显示主包的名称。子包的名称我们就使用子包的目录来命名了。
  - excludeFiles：需要排除遍历的的一些文件目录，仅限于在一级目录下的文件。
- - isSplitNpm: 是否需要独立分包，这个是更高级的摇树优化。
- - excludeNpms：独立分包需要排除的npm包名称。
+ - isSplitNpm: 是否需要独立分包，这个是更高级的摇树优化，使用文档：[移动独立npm包](https://developers.weixin.qq.com/miniprogram/dev/framework/subpackages/basic.html)
+ - excludeNpms：独立分包需要排除的npm包名称，用于解决一些特殊的情况。
  - needCustomTabBar：是否使用了微信的自定义tabbar，如果使用了必须设置为true，否则不会遍历。
+
+## 3. 注意事项
+ - 分包的目录最好在一级目录之下，参考官网[分包](https://developers.weixin.qq.com/miniprogram/dev/framework/subpackages/basic.html)
 
 changelog:
  - bugfix：修复删除业务代码正则匹配越界问题
