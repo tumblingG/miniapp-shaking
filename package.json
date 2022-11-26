@@ -1,6 +1,6 @@
 {
   "name": "miniapp-shaking",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "description": "微信小程序摇树优化工具",
   "main": "src/index.js",
   "scripts": {
@@ -21,14 +21,12 @@
   },
   "homepage": "https://github.com/tumblingG/miniapp-shaking#readme",
   "dependencies": {
-    "@babel/core": "^7.16.0",
     "@babel/generator": "^7.15.8",
     "@babel/parser": "^7.15.8",
-    "@babel/template": "^7.15.4",
     "@babel/traverse": "^7.15.4",
     "@babel/types": "^7.15.6",
-    "babel-loader": "^8.2.3",
     "fs-extra": "^10.0.0",
     "htmlparser2": "^7.2.0"
-  }
+  },
+  "devDependencies": {}
 }
